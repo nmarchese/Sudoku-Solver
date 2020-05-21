@@ -59,10 +59,10 @@ def solve(board):
     return True
 
 def find_next_empty(board):
-  for i in range(len(board)):
-    for j in range(len(board[i])):
-      if board[i][j] == 0:
-        return (i, j)
+  for y in range(len(board)):
+    for x in range(len(board[y])):
+      if board[y][x] == 0:
+        return (y, x)
 
   return None
 
@@ -97,4 +97,5 @@ def run():
   else:
     print("no solution?")
 
-run()
+if __name__ == '__main__':
+  run()
