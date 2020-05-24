@@ -28,7 +28,7 @@ Run the solver
 >python solver.py
 ```
 
-#### Running Sudoku Solver's tests
+### Running Sudoku Solver's tests
 
 Run python's unittest module from the project root directory
 
@@ -37,7 +37,7 @@ Run python's unittest module from the project root directory
 >python -m unittest
 ```
 
-#### Using Different Sudoku Boards
+### Using Different Sudoku Boards
 
 Open solver.py in an editor. The current project has three boards built in, two which are solvable and one which is not. You can view each board where they are difined at the top of the file.
 
