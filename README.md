@@ -1,6 +1,6 @@
 # Sudoku Solver
 
-Python application for solving sudoku puzzles
+Python application for solving Sudoku puzzles
 
 ## Using Sudoku Solver
 
