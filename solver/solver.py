@@ -38,16 +38,24 @@ board_len = 9
 
 def print_board(board):
   """Pretty print board with dividing lines and empty cells (0) converted to a blank space"""
+  print()
+  print("    0 1 2   3 4 5   6 7 8")
+  print("   -----------------------")
   for i in range(board_len):
     if i != 0 and i % 3 == 0:
       # print dividing line every 3 rows
-      print("------+-------+------")
+      print("  |-------+-------+-------|")
+    print(i, "|", end=" ")
     for j in range(board_len):
       if j != 0 and j % 3 == 0:
         # print divider every 3 cells
         print("| ", end="")
       print(board[i][j] if board[i][j] != 0 else " ", end=" ")
+    print("|",i, end="")
     print()
+  print("   -----------------------")
+  print("    0 1 2   3 4 5   6 7 8")
+  print()
 
 def solve_timed(board, solve_method, timer):
   """Solve board using given solve_method and record ammount of time taken to complete"""
@@ -96,18 +104,17 @@ def solve_with_note_sorting(board, notes_dict):
   if next:
     # try each number in next position's notes
     for num in notes_dict[next]:
+      board[next[0]][next[1]] = num
       if remove_notes(num, next, notes_dict):
-        # move results in notes_dict remaining valid, set position to num
-        board[next[0]][next[1]] = num
-        
+        # notes_dict remains valid
         # recursive call to solve next position
         if solve_with_note_sorting(board, notes_dict):
           return True
-
-        # couldn't find valid number for next position
-        # backtrack
-        board[next[0]][next[1]] = 0
-        add_notes(next, notes_dict, board)
+        
+      # notes_dict made invaled by move
+      # backtrack
+      board[next[0]][next[1]] = 0
+      add_notes(next, notes_dict, board)
 
     # board unsolvable
     return False
@@ -129,14 +136,11 @@ def check_valid(num, pos, board):
   y_pos = pos[0]
   x_pos = pos[1]
 
-  # check row:
-  for x in range(board_len):
-    if num == board[y_pos][x]:
+  # check row amd column:
+  for xy in range(board_len):
+    if num == board[y_pos][xy]:
       return False
-
-  # check column:
-  for y in range(board_len):
-    if num == board[y][x_pos]:
+    if num == board[xy][x_pos]:
       return False
   
   # check box:
@@ -294,5 +298,4 @@ def run(board):
 if __name__ == '__main__':
   run(wrong_board)
   run(hard_board)
-  # run(expert_board) 
-  # #TODO: notes driven solve can't complete expert board...
+  run(expert_board) 

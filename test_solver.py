@@ -46,7 +46,7 @@ test_board_partial_complete_2 = [
   [0, 0, 0, 3, 0, 0, 9, 0, 0],
   [0, 0, 2, 7, 0, 9, 0, 0, 0]
 ]
-test_board_expert = [
+test_board_expert_not_started = [
   [0, 0, 0, 0, 0, 0, 3, 0, 7],
   [8, 9, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 6, 7, 4, 0, 1],
@@ -56,6 +56,17 @@ test_board_expert = [
   [0, 0, 0, 0, 0, 0, 1, 6, 0],
   [0, 1, 0, 8, 7, 0, 0, 3, 0],
   [3, 5, 0, 0, 2, 0, 0, 0, 0]
+]
+test_board_expert_solved = [
+  [1, 6, 4, 2, 5, 8, 3, 9, 7],
+  [8, 9, 7, 4, 1, 3, 6, 5, 2],
+  [2, 3, 5, 9, 6, 7, 4, 8, 1],
+  [7, 4, 1, 5, 3, 6, 8, 2, 9],
+  [5, 8, 3, 1, 9, 2, 7, 4, 6],
+  [6, 2, 9, 7, 8, 4, 5, 1, 3],
+  [9, 7, 2, 3, 4, 5, 1, 6, 8],
+  [4, 1, 6, 8, 7, 9, 2, 3, 5],
+  [3, 5, 8, 6, 2, 1, 9, 7, 4]
 ]
 test_board_unsolvable = [
   [0, 0, 0, 1, 9, 7, 3, 0, 0],
@@ -299,6 +310,16 @@ class TestSolver(unittest.TestCase):
     self.assertTrue(result)
     self.assertEqual(board, test_board_solved)
 
+  def test_solve_returns_true_and_completes__expert_board(self):
+    """
+    Test that solve returns true and modifies board to correct
+    completed status when a solvable board is provided.
+    """
+    board = [row[:] for row in test_board_expert_not_started]
+    result = solver.solve(board)
+    self.assertTrue(result)
+    self.assertEqual(board, test_board_expert_solved)
+
   def test_solve_returns_false_for_unsolvable_board(self):
     """
     Test that solve returns false and when an unsolvable
@@ -390,6 +411,16 @@ class TestSolver(unittest.TestCase):
     result = solver.solve_with_note_sorting_start(board)
     self.assertTrue(result)
     self.assertEqual(board, test_board_solved)
+
+  def test_solve_with_note_sorting_returns_true_and_completes_expert_board(self):
+    """
+    Test that solve_with_note_sorting returns true and modifies board
+    to correct completed status when a solvable board is provided.
+    """
+    board = [row[:] for row in test_board_expert_not_started]
+    result = solver.solve_with_note_sorting_start(board)
+    self.assertTrue(result)
+    self.assertEqual(board, test_board_expert_solved)
 
   def test_solve_with_note_sorting_returns_false_for_unsolvable_board(self):
     """
