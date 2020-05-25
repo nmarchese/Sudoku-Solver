@@ -1,4 +1,5 @@
 import unittest
+import time
 
 from solver import solver
 
@@ -430,6 +431,19 @@ class TestSolver(unittest.TestCase):
     board = [row[:] for row in test_board_unsolvable]
     result = solver.solve_with_note_sorting_start(board)
     self.assertFalse(result)
+
+  def test_solve_timed_accurately_records_time(self):
+    """
+    Test that solve_timed accurately records time taken to run
+    provided solve method
+    """
+    board = None
+    def mock_solve(board):
+      time.sleep(.01)
+    timer = []
+    solver.solve_timed(board, mock_solve, timer)
+    expected = .01
+    self.assertEqual("%.2f" % timer[0], "%.2f" % expected)
 
 if __name__ == '__main__':
   unittest.main()
