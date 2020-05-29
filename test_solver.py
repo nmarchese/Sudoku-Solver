@@ -3,6 +3,7 @@ import time
 
 from solver import solver
 
+board_len = 9
 test_board_not_started = [
   [0, 0, 0, 1, 0, 7, 3, 0, 0],
   [0, 0, 1, 0, 0, 5, 0, 0, 0],
@@ -16,6 +17,17 @@ test_board_not_started = [
 ]
 test_board_solved = [
   [9, 6, 5, 1, 4, 7, 3, 2, 8], 
+  [2, 7, 1, 8, 3, 5, 6, 4, 9], 
+  [8, 4, 3, 2, 9, 6, 1, 7, 5],
+  [6, 2, 7, 5, 8, 3, 4, 9, 1],
+  [5, 8, 9, 6, 1, 4, 7, 3, 2],
+  [3, 1, 4, 9, 7, 2, 5, 8, 6],
+  [7, 9, 6, 4, 5, 8, 2, 1, 3],
+  [4, 5, 8, 3, 2, 1, 9, 6, 7],
+  [1, 3, 2, 7, 6, 9, 8, 5, 4]
+]
+test_board_solved_incorrect = [
+  [1, 6, 5, 1, 4, 7, 3, 2, 8], 
   [2, 7, 1, 8, 3, 5, 6, 4, 9], 
   [8, 4, 3, 2, 9, 6, 1, 7, 5],
   [6, 2, 7, 5, 8, 3, 4, 9, 1],
@@ -79,6 +91,133 @@ test_board_unsolvable = [
   [0, 9, 0, 0, 5, 8, 0, 0, 3],
   [0, 0, 0, 3, 0, 0, 9, 0, 0],
   [0, 0, 2, 7, 0, 9, 0, 0, 0]
+]
+test_board_basic_two_solutions = [
+  [0, 0, 3, 4, 5, 6, 7, 8, 9],
+  [4, 5, 6, 7, 8, 9, 1, 2, 3],
+  [7, 8, 9, 1, 2, 3, 4, 5, 6],
+  [0, 0, 4, 3, 6, 5, 8, 9, 7],
+  [3, 6, 5, 8, 9, 7, 2, 1, 4],
+  [8, 9, 7, 2, 1, 4, 3, 6, 5],
+  [5, 3, 1, 6, 4, 2, 9, 7, 8],
+  [6, 4, 2, 9, 7, 8, 5, 3, 1],
+  [9, 7, 8, 5, 3, 1, 6, 4, 2]
+]
+test_board_basic_complete_one = [
+  [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [4, 5, 6, 7, 8, 9, 1, 2, 3],
+  [7, 8, 9, 1, 2, 3, 4, 5, 6],
+  [2, 1, 4, 3, 6, 5, 8, 9, 7],
+  [3, 6, 5, 8, 9, 7, 2, 1, 4],
+  [8, 9, 7, 2, 1, 4, 3, 6, 5],
+  [5, 3, 1, 6, 4, 2, 9, 7, 8],
+  [6, 4, 2, 9, 7, 8, 5, 3, 1],
+  [9, 7, 8, 5, 3, 1, 6, 4, 2]
+]
+test_board_basic_complete_two = [
+  [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [4, 5, 6, 7, 8, 9, 1, 2, 3],
+  [7, 8, 9, 1, 2, 3, 4, 5, 6],
+  [2, 1, 4, 3, 6, 5, 8, 9, 7],
+  [3, 6, 5, 8, 9, 7, 2, 1, 4],
+  [8, 9, 7, 2, 1, 4, 3, 6, 5],
+  [5, 3, 1, 6, 4, 2, 9, 7, 8],
+  [6, 4, 2, 9, 7, 8, 5, 3, 1],
+  [9, 7, 8, 5, 3, 1, 6, 4, 2]
+]
+test_board_basic_removed_cells = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 1, 2, 3],
+  [0, 0, 0, 1, 2, 3, 4, 5, 6],
+  [0, 1, 0, 0, 0, 5, 0, 0, 7],
+  [0, 0, 5, 0, 0, 7, 2, 0, 0],
+  [0, 0, 7, 2, 0, 0, 3, 6, 0],
+  [0, 0, 0, 0, 0, 0, 0, 7, 8],
+  [0, 4, 2, 0, 7, 8, 5, 0, 0],
+  [0, 7, 8, 5, 0, 0, 6, 0, 0]
+]
+ordered_cells_list = [
+  (0,0),
+  (0,1),
+  (0,2),
+  (0,3),
+  (0,4),
+  (0,5),
+  (0,6),
+  (0,7),
+  (0,8),
+  (1,0),
+  (1,1),
+  (1,2),
+  (1,3),
+  (1,4),
+  (1,5),
+  (1,6),
+  (1,7),
+  (1,8),
+  (2,0),
+  (2,1),
+  (2,2),
+  (2,3),
+  (2,4),
+  (2,5),
+  (2,6),
+  (2,7),
+  (2,8),
+  (3,0),
+  (3,1),
+  (3,2),
+  (3,3),
+  (3,4),
+  (3,5),
+  (3,6),
+  (3,7),
+  (3,8),
+  (4,0),
+  (4,1),
+  (4,2),
+  (4,3),
+  (4,4),
+  (4,5),
+  (4,6),
+  (4,7),
+  (4,8),
+  (5,0),
+  (5,1),
+  (5,2),
+  (5,3),
+  (5,4),
+  (5,5),
+  (5,6),
+  (5,7),
+  (5,8),
+  (6,0),
+  (6,1),
+  (6,2),
+  (6,3),
+  (6,4),
+  (6,5),
+  (6,6),
+  (6,7),
+  (6,8),
+  (7,0),
+  (7,1),
+  (7,2),
+  (7,3),
+  (7,4),
+  (7,5),
+  (7,6),
+  (7,7),
+  (7,8),
+  (8,0),
+  (8,1),
+  (8,2),
+  (8,3),
+  (8,4),
+  (8,5),
+  (8,6),
+  (8,7),
+  (8,8),
 ]
 test_board_not_started_notes_dict = {
   (0,0): [2,4,5,9],
@@ -409,7 +548,7 @@ class TestSolver(unittest.TestCase):
     to correct completed status when a solvable board is provided.
     """
     board = [row[:] for row in test_board_not_started]
-    result = solver.solve_with_note_sorting_start(board)
+    result = solver.solve_with_note_sorting(board)
     self.assertTrue(result)
     self.assertEqual(board, test_board_solved)
 
@@ -419,7 +558,7 @@ class TestSolver(unittest.TestCase):
     to correct completed status when a solvable board is provided.
     """
     board = [row[:] for row in test_board_expert_not_started]
-    result = solver.solve_with_note_sorting_start(board)
+    result = solver.solve_with_note_sorting(board)
     self.assertTrue(result)
     self.assertEqual(board, test_board_expert_solved)
 
@@ -429,10 +568,10 @@ class TestSolver(unittest.TestCase):
     unsolvable board is provided.
     """
     board = [row[:] for row in test_board_unsolvable]
-    result = solver.solve_with_note_sorting_start(board)
+    result = solver.solve_with_note_sorting(board)
     self.assertFalse(result)
 
-  def test_solve_timed_accurately_records_time(self):
+  def test_call_timed_accurately_records_time(self):
     """
     Test that solve_timed accurately records time taken to run
     provided solve method
@@ -441,9 +580,89 @@ class TestSolver(unittest.TestCase):
     def mock_solve(board):
       time.sleep(.01)
     timer = []
-    solver.solve_timed(board, mock_solve, timer)
+    solver.call_timed(mock_solve, timer, board)
     expected = .01
     self.assertEqual("%.2f" % timer[0], "%.2f" % expected)
 
+  def test_check_board_valid_returns_true_for_valid_board(self):
+    """
+    Test that check_board_valid returns True when board provided is complete and valid
+    """
+    result = solver.check_board_valid(test_board_solved)
+    self.assertTrue(result)
+
+  def test_check_board_valid_returns_false_for_non_valid_board(self):
+    """
+    Test that check_board_valid returns False when board provided is not valid
+    """
+    result = solver.check_board_valid(test_board_solved_incorrect)
+    self.assertFalse(result)
+
+  def test_check_board_valid_returns_false_for_incomplete_board(self):
+    """
+    Test that check_board_valid returns False when board provided is not complete
+    """
+    result = solver.check_board_valid(test_board_not_started)
+    self.assertFalse(result)
+
+  def test_generate_cells_fills_board_with_valid_numbers(self):
+    """
+    Test that generate_cells fills an empty board and resulting board is valid
+    """
+    board = [[0 for x in range(board_len)] for y in range(board_len)]
+    solver.generate_cells(board)
+    result = solver.check_board_valid(board)
+    self.assertTrue(result)
+
+  def test_get_random_cells_list_returns_81_randomized_unique_cells(self):
+    """
+    Test that get_random_cells returns a list of 81 unique cells in a random order
+    """
+    result = solver.get_random_cells_list()
+    self.assertTrue(len(result) == 81)
+    self.assertNotEqual(result, ordered_cells_list)
+    for cell in ordered_cells_list:
+      self.assertTrue(result.count(cell) == 1)
+  
+  def test_check_if_multiple_solutions_returns_true_when_multiple_solutions_exist(self):
+    """
+    Test that check_if_multiple_solutions returns True when a board with more than one
+    possible solution is provided
+    """
+    board = [row[:] for row in test_board_basic_two_solutions]
+    result = solver.check_if_multiple_solutions(board)
+    self.assertTrue(result)
+
+  def test_check_if_multiple_solutions_returns_false_when_only_one_solution_exists(self):
+    """
+    Test that check_if_multiple_solutions returns False when a board with only one
+    possible solution is provided
+    """
+    board = [row[:] for row in test_board_not_started]
+    result = solver.check_if_multiple_solutions(board)
+    self.assertFalse(result)
+
+  def test_find_all_solutions_results_in_solutions_list_containing_all_possible_solutions(self):
+    """
+    Test that find_all_solutions results in provided solutions list containing all possible solutions
+    to provided board
+    """
+    solutions = []
+    board = [row[:] for row in test_board_basic_two_solutions]
+    solver.find_all_solutions(board, solutions)
+    self.assertEqual(len(solutions), 2)
+    self.assertTrue(solutions.count(test_board_basic_complete_one) == 1)
+    self.assertTrue(solutions.count(test_board_basic_complete_two) == 1)
+
+
+  def test_remove_numbers_results_in_partially_empty_board_with_one_solution(self):
+    """
+    Test that remove_numbers results in provided board partially empty in a
+    configuaration that allows for only one solution
+    """
+    board = [row[:] for row in test_board_basic_complete_one]
+    solver.remove_numbers(board, ordered_cells_list)
+    self.assertEqual(board, test_board_basic_removed_cells)
+  
 if __name__ == '__main__':
   unittest.main()
